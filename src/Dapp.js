@@ -26,7 +26,10 @@ const Dapp = () => {
       }
     }, [simpleStorage])
 
-   // Get storage value on data change, handling the smart contract event 
+   // Get storage value on data change, by listening to the smart contract abstraction
+   // Using method on, off, to suscribe and unsuscribe to emmited event.
+   // Suscribe on Emit, unsuscribe on unmount with data cleanup.
+
    // Create a hook for that ? 
 
    useEffect(() => {
