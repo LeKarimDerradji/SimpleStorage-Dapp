@@ -29,7 +29,7 @@ const Dapp = () => {
    // Get storage value on data change, handling the smart contract event 
 
     
-    
+    // This is the old way of getting the illusion that our react app mirror the data :
     // Set storage data on userInput
     const handleClickSetStorage = async () => {
       try {
