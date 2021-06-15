@@ -27,24 +27,34 @@ const Dapp = () => {
     }, [simpleStorage])
 
    // Get storage value on data change, handling the smart contract event 
+   // Create a hook for that ? 
 
+   useEffect(() => {
+    // si myContract est pas null alors
+    if (simpleStorage) {
+      const cb = (account, str) => {
+        // call back qui sera executée lorsque l'event sera émit 
+        console.log(`${account} wrote on the blockchain, with data : ${str}`)
+        setValue(str)
+      }
+      // ecouter sur l'event myEvent
+      simpleStorage.on('DataSet', cb)
+      return () => {
+        // arreter d'ecouter lorsque le component sera unmount
+        simpleStorage.off('DataSet', cb)
+      }
+    }
+  }, [simpleStorage]) 
+  
     
-    // This is the old way of getting the illusion that our react app mirror the data :
-    // Set storage data on userInput
+    // Write on the blockchain, injecting data by calling the smart contract
+    // Catching if an error occurs
     const handleClickSetStorage = async () => {
       try {
-        // Calling for the smart contract
-        const tx = await simpleStorage.setData(inputValue)
-        // Waiting for the tx to be mined
-        await tx.wait()
-        // Set the value from the getter of the smart contract
-        const _value = await simpleStorage.getData()
-        // Update the value as a React state
-        setValue(_value)
+        await simpleStorage.setData(inputValue)
       } catch(e) {
         console.log(e)
-      }
-        
+      }  
     }
 
     return (
