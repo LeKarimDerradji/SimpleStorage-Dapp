@@ -10,39 +10,47 @@ const Dapp = () => {
     const simpleStorage = useContext(SimpleStorageContext)
     const [value, setValue] = useState(0)
     const [inputValue, setInputValue] = useState('')
-   /*
+
+    // Get storage value when component mount : 
     useEffect(() => {
-        if (simpleStorage) {
-          const getValue = async () => {
-            try {
-              const _value = await simpleStorage.getData()
-              setValue(_value)
-            } catch (e) {
-                console.log(e)
-            }
+      if (simpleStorage) {
+        const getValue = async () => {
+          try {
+            const _value = await simpleStorage.getData()
+            setValue(_value)
+          } catch (e) {
+            console.log(e)
+          }
         }
-    }
-    }, [simpleStorage]) */
-     /*
-    // Listen to DataSet event and react with a state change
-    useEffect(() => {
-    // If simpleStorage is not null
-      if(simpleStorage) {
-        const callback = (account, str) = {
-            setValue(str)
-        }
+        getValue()
       }
-    }, [simpleStorage]) */
+    }, [simpleStorage])
 
+   // Get storage value on data change, handling the smart contract event 
+
+    
+    
+    // Set storage data on userInput
     const handleClickSetStorage = async () => {
+      try {
+        // Calling for the smart contract
         const tx = await simpleStorage.setData(inputValue)
-
+        // Waiting for the tx to be mined
+        await tx.wait()
+        // Set the value from the getter of the smart contract
+        const _value = await simpleStorage.getData()
+        // Update the value as a React state
+        setValue(_value)
+      } catch(e) {
+        console.log(e)
+      }
+        
     }
 
     return (
 
     <>
-    <p>Value : {inputValue}</p>
+    <p>Value : {value}</p>
 
      <input 
      value={inputValue} 
