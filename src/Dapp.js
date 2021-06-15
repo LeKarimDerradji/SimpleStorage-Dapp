@@ -1,6 +1,30 @@
 import { useContext, useState, useEffect} from 'react'
+import {
+  Alert,
+  AlertIcon,
+  Input,
+  Button,
+  Flex,
+  Spacer,
+  Heading,
+  Text,
+  HStack,
+  Spinner,
+  useToast,
+  useDisclosure,
+} from '@chakra-ui/react'
+
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react' 
+
 import { Web3Context } from 'web3-hooks'
-import { ethers } from 'ethers'
 import { SimpleStorageContext } from './App'
 import { SimpleStorageAddress } from './contracts/SimpleStorage'
 
@@ -63,17 +87,19 @@ const Dapp = () => {
     return (
 
     <>
-    <p>Value : {value}</p>
+    <Text as="b" fontSize="30">Value : {value} </Text>
 
-     <input 
+     <Input 
+     width="50"
      value={inputValue} 
      placeholder="storage value to set"
      onChange={(event) => setInputValue(event.target.value)}/>
 
-     <button
-     onClick={handleClickSetStorage}>
+     <Button
+      colorScheme="teal"
+      onClick={handleClickSetStorage}>
        set storage
-     </button>
+     </Button>
 
     </>
     )
